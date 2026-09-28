@@ -353,7 +353,7 @@ Full parameter documentation: `msgflex sparx --help`
 ```bash
 git clone https://github.com/YOUR_ORG/msgflex.git
 cd msgflex
-conda env create -f environment.yml
+conda env create -n msgflex -f environment.yml
 conda activate msgflex
 pip install -e ".[dev]"
 
