@@ -1,0 +1,166 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# Bioconda recipe  —  msgflex
+#
+# Placement:  recipes/msgflex/meta.yaml  (inside bioconda-recipes fork)
+#
+# Key decisions documented inline:
+#   • dearpygui (GUI) is pip-only → installed via post-link.sh, not here
+#   • MSGFPlus.jar has no Bioconda recipe → bundled via secondary source block
+#   • MASIC + PHRP are .NET → shipped as binaries + mono runtime dependency
+#   • noarch: python is NOT used (compiled C-extension deps: pyopenms, xgboost)
+#   • All SHA256 values marked REPLACE_ME → fill after pinning release tags
+# ══════════════════════════════════════════════════════════════════════════════
+
+{% set name    = "msgflex" %}
+{% set version = "0.5.0" %} 
+
+package:
+  name:    {{ name|lower }}
+  version: {{ version }}
+
+# ── Sources ───────────────────────────────────────────────────────────────────
+# Block 1: Python package (GitHub release tarball or PyPI sdist)
+# Block 2: MSGFPlus.jar  (no Bioconda package exists; bundled here)
+# Block 3: MASIC         (no Bioconda package; .NET binary for Linux/macOS via Mono)
+# Block 4: PHRP          (no Bioconda package; .NET binary for Linux/macOS via Mono)
+#
+# HOW TO GET SHA256 VALUES:
+#   curl -sL <url> | sha256sum
+# ─────────────────────────────────────────────────────────────────────────────
+source:
+  # ── 1. msgflex Python package ─────────────────────────────────────────────
+  - url: https://github.com/YOUR_ORG/msgflex/archive/refs/tags/v{{ version }}.tar.gz
+    sha256: REPLACE_ME_msgflex_tarball
+    folder: src
+
+  # ── 2. MSGFPlus 2024 release ──────────────────────────────────────────────
+  # Latest jar: https://github.com/MSGFPlus/msgfplus/releases
+  # Pin the exact release tag used in your tools/ directory.
+  - url: https://github.com/MSGFPlus/msgfplus/releases/download/v2024.01.17/MSGFPlus.jar
+    sha256: REPLACE_ME_msgfplus_jar
+    folder: tools_src/msgfplus
+
+  # ── 3. MASIC ──────────────────────────────────────────────────────────────
+  # MASIC ships as a zip on GitHub; unzip in build.sh to get MASIC.exe + deps.
+  # https://github.com/PNNL-Comp-Mass-Spec/MASIC/releases
+  - url: https://github.com/PNNL-Comp-Mass-Spec/MASIC/releases/download/v3.2.7764/MASIC_v3.2.7764.zip
+    sha256: REPLACE_ME_masic_zip
+    folder: tools_src/masic
+
+  # ── 4. PHRP ───────────────────────────────────────────────────────────────
+  # https://github.com/PNNL-Comp-Mass-Spec/PHRP/releases
+  - url: https://github.com/PNNL-Comp-Mass-Spec/PHRP/releases/download/v1.6.7900/PHRP_v1.6.7900.zip
+    sha256: REPLACE_ME_phrp_zip
+    folder: tools_src/phrp
+
+# ── Build ─────────────────────────────────────────────────────────────────────
+build:
+  number: 0
+  # NOT noarch:python because:
+  #   - pyopenms ships compiled platform wheels
+  #   - xgboost has compiled extensions
+  #   - dearpygui (GUI extra) is compiled
+
+  script_env:
+    - CONDA_PREFIX
+
+  # Full build logic is in build.sh (Linux/macOS) and bld.bat (Windows).
+  # See those files below — the script: key is not used for multi-platform
+  # builds with binary tool placement.
+
+  entry_points:
+    - msgflex     = msgflex.cli.main:main
+    - msgflex-gui = msgflex.gui.app:launch
+
+# ── Requirements ──────────────────────────────────────────────────────────────
+requirements:
+  build:
+    - unzip     # to unpack MASIC and PHRP zips during build
+    # No compiled C/C++ in the Python package itself — no compiler needed.
+
+  host:
+    - python >=3.10
+    - pip
+    - setuptools >=68
+    - wheel
+
+  run:
+    - python >=3.10
+    # ── Standard scientific stack (all on conda-forge) ───────────────────────
+    - numpy >=1.24
+    - pandas >=2.0
+    - scipy >=1.11
+    - matplotlib-base >=3.7
+    - seaborn >=0.13
+    - scikit-learn >=1.3
+    - statsmodels >=0.14
+    - joblib >=1.3
+    - tqdm >=4.66
+    # ── Bioinformatics (conda-forge / bioconda) ──────────────────────────────
+    - pyopenms >=3.0          # conda-forge::pyopenms
+    - pyteomics >=4.6         # bioconda::pyteomics  (also conda-forge)
+    - xgboost >=2.0           # conda-forge::py-xgboost
+    # ── CLI ──────────────────────────────────────────────────────────────────
+    - typer >=0.12            # conda-forge::typer
+    # ── Java runtime for MSGFPlus ─────────────────────────────────────────────
+    - openjdk >=11            # conda-forge::openjdk
+    # ── Mono runtime for MASIC + PHRP (.NET) on Linux/macOS ──────────────────
+    - mono  # [not win]       # conda-forge::mono
+
+  # NOTE: dearpygui is a pip-only GUI dep, handled by post-link.sh / bld.bat.
+
+# ── Post-link scripts ─────────────────────────────────────────────────────────
+# See recipes/msgflex/post-link.sh  and  recipes/msgflex/post-link.bat
+# These pip-install dearpygui after the conda package is placed.
+
+# ── Tests ─────────────────────────────────────────────────────────────────────
+test:
+  imports:
+    - msgflex
+    - msgflex.core
+    - msgflex.core.tools_resolver
+    - msgflex.pipelines
+    - msgflex.modules
+    - msgflex.xpectra
+    - msgflex.quantix
+    - msgflex.orchestrator
+
+  commands:
+    # CLI smoke tests (must not require tools or data files)
+    - msgflex --help
+    - msgflex --version
+    # Verify tool bundles were placed correctly
+    - test -f "$PREFIX/share/msgflex/tools/MSGFPlus.jar"       # [not win]
+    - test -d "$PREFIX/share/msgflex/tools/MASIC"              # [not win]
+    - test -d "$PREFIX/share/msgflex/tools/PHRP"               # [not win]
+    - if not exist "%PREFIX%\share\msgflex\tools\MSGFPlus.jar" exit 1   # [win]
+    # Java accessible
+    - java -version
+    # Mono accessible (Linux/macOS only)
+    - mono --version  # [not win]
+
+  requires:
+    - pytest
+    - pytest-cov
+
+# ── About ─────────────────────────────────────────────────────────────────────
+about:
+  home:         https://github.com/YOUR_ORG/msgflex
+  license:      MIT
+  license_file: src/LICENSE
+  summary: >-
+    Unified proteomics pipeline integrating MS-GF+, MASIC, PHRP, XPECTRA
+    (percolator-style rescoring), and QUANTIX (label-free quantitation).
+  description: |
+    MSGFlex is a Python package that orchestrates a complete data-dependent
+    acquisition (DDA) proteomics analysis workflow:
+      - Upstream: MS-GF+ database search, MASIC SIC extraction, PHRP post-processing
+      - XPECTRA:  machine-learning PSM rescoring (XGBoost + RT calibration)
+      - QUANTIX:  peptide-level LFQ, FDR filtering, crosstab rollup, clustering
+    A DearPyGui-based graphical interface is available via `pip install msgflex[gui]`.
+  doc_url: https://github.com/YOUR_ORG/msgflex#readme
+  dev_url: https://github.com/YOUR_ORG/msgflex
+
+extra:
+  recipe-maintainers:
+    - YOUR_GITHUB_HANDLE   # TODO: replace with GitHub username

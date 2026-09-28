@@ -1,0 +1,110 @@
+msgflex/
+├── msgflex/
+│   ├── __init__.py                  # __version__, top-level re-exports
+│   │
+│   ├── core/                        # NEW — shared infrastructure
+│   │   ├── paths.py                 # ProjectPaths dataclass (single source of truth)
+│   │   ├── config.py                # Pydantic models for all 3 stages
+│   │   ├── logging.py               # one logger config, used by everyone
+│   │   ├── callbacks.py             # ProgressCallback protocol (GUI + CLI both)
+│   │   ├── tools_resolver.py        # finds MSGFPlus.jar, MASIC, PHRP inside tools/
+│   │   └── exceptions.py            # MsgflexError, UpstreamError, XpectraError, QuantixError
+│   │
+│   ├── pipelines/                   # EXISTING, refactored
+│   │   ├── conventional.py          # top-level script → run_conventional(paths, cfg, cb)
+│   │   └── binning.py
+│   │
+│   ├── modules/                     # EXISTING
+│   │   ├── masic_merger.py
+│   │   ├── inputfile_generator.py
+│   │   ├── dbcurator.py
+│   │   ├── MASIC_wrapper.py
+│   │   └── tic_plot.py              # MOVED IN — no more subprocess python3
+│   │
+│   ├── xpectra/                     # XPECTRA vendored here
+│   │   ├── __init__.py
+│   │   ├── rxflow.py                # sys.exit → raise XpectraError
+│   │   ├── model.py  features.py  metrics.py  utils.py  plots.py
+│   │
+│   ├── quantix/                     # msgpypulse, renamed + refactored
+│   │   ├── __init__.py
+│   │   ├── pipeline.py              # MSGFPDOWNPipeline → QuantixPipeline
+│   │   ├── sics.py  fdr.py  filter.py  crosstab.py  clustering.py  rollup.py
+│   │
+│   ├── orchestrator/                # NEW — the glue
+│   │   └── workflow.py              # run_full(paths, cfg, cb, *, skip_xpectra=False)
+│   │
+│   ├── cli/                         # NEW — thin argparse/typer layer
+│   │   └── main.py                  # `msgflex {upstream,xpectra,quantix,run}`
+│   │
+│   └── gui/                         # LATER — Dear PyGui
+│
+├── tools/                           # MSGFPlus.jar, MASIC/, PHRP/, etc. (unchanged)
+├── pyproject.toml
+└── README.md
+└── README.md
+└── install.sh
+└── setup_desktop.sh
+
+
+msgflex/
+├── msgflex/
+│   ├── __init__.py
+│   ├── core/                          # shared infra (unchanged from round 1)
+│   ├── cli/main.py                    # unified CLI (unchanged)
+│   ├── orchestrator/workflow.py       # stage chaining (unchanged)
+│   ├── pipelines/                     # conventional.py, binning.py (unchanged)
+│   ├── modules/tic_plot.py            # (unchanged)
+│   ├── quantix/__init__.py            # wrapper (unchanged)
+│   │
+│   └── xpectra/                       # ← VENDORED (this round)
+│       ├── __init__.py                # wrapper: run() + re-exports
+│       ├── rxflow.py                  # verbatim + 1 metadata fix
+│       ├── features.py                # verbatim ✓
+│       ├── model.py                   # verbatim ✓
+│       ├── metrics.py                 # verbatim ✓
+│       ├── utils.py                   # verbatim ✓
+│       ├── xrtpred.py                 # verbatim ✓
+│       └── plots.py                   # STUB — drop your real file in
+├── pyproject.toml                     # +xgboost, pyteomics, statsmodels, etc.
+└── README-CLI.md
+
+
+
+msgflex/
+├── msgflex/
+│   ├── __init__.py                         # v1.1.0
+│   ├── core/                               # shared infra
+│   │   ├── exceptions.py                   # MsgflexError hierarchy
+│   │   ├── paths.py                        # ProjectPaths (31 attributes)
+│   │   └── logging.py                      # unified logger
+│   ├── cli/main.py                         # msgflex {upstream,xpectra,quantix,run}
+│   ├── orchestrator/workflow.py            # chains all 3 stages
+│   ├── pipelines/
+│   │   ├── conventional.py                 # run(paths, conf_loc)
+│   │   └── binning.py                      # run(paths, conf_loc)
+│   ├── modules/tic_plot.py
+│   │
+│   ├── xpectra/                            # vendored XPECTRA v1.2.5
+│   │   ├── __init__.py                     # run() + re-exports
+│   │   ├── rxflow.py features.py model.py
+│   │   ├── metrics.py utils.py xrtpred.py
+│   │   └── plots.py                        # STUB — drop your real file in
+│   │
+│   └── quantix/                            # vendored msgpypulse → QUANTIX
+│       ├── __init__.py                     # run() wrapper
+│       ├── pipeline.py                     # QuantixPipeline (replaces MSGFPDOWNPipeline)
+│       ├── prepare_sics.py                 # + MSMSScore + is_decoy (absorbed fdr_estimator)
+│       ├── merge_shared.py                 # is_decoy 0/1, updated file patterns
+│       ├── filter_psms.py                  # is_decoy 0/1, XPECTRA-compatible
+│       ├── peptide_crosstab.py             # verbatim
+│       ├── annotator.py                    # verbatim
+│       ├── coverage.py                     # verbatim
+│       ├── rollup.py                       # verbatim
+│       └── plots.py                        # is_decoy 0/1 palette
+│
+├── pyproject.toml
+└── README.md
+└── install.sh
+└── setup_desktop.sh
+

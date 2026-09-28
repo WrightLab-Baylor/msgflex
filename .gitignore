@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Virtual environments
+venv/
+.venv/
+
+# Secrets / local config
+.env
+*.key
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Bundled third-party tools (shipped via release asset, not git)
+tools/
+
+# Trained models and other large binary artifacts
+*.pkl
+*.joblib
+*.model
+models/
+
+# Pipeline inputs/outputs
+*.raw
+*.mzML
+*.mgf
+*.mzid
+*.ms2
+*.mzXML
+results/
+SICdir/
+output/
+*.log
+
+# But keep small test data
+!tests/data/
+!tests/data/**
+!tests/data/**
