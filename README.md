@@ -132,7 +132,7 @@ headless systems to skip it.
 ### Option D — Manual conda install *(developers)*
 
 ```bash
-git clone https://github.com/YOUR_ORG/msgflex.git
+git clone https://github.com/thulasis/msgflex.git
 cd msgflex
 conda env create -f environment.yml
 conda activate msgflex
