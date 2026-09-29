@@ -1,16 +1,4 @@
 #!/usr/bin/env bash
-# =============================================================================
-# MSGFLEX Pipeline v1.1.0 — Installer
-# =============================================================================
-VERSION="$(sed -n 's/^__version__ *= *"\(.*\)"/\1/p' "$SCRIPT_DIR/msgflex/__init__.py")"
-echo "  MSGFLEX Pipeline v${VERSION} Installer"
-
-# Usage:
-#   bash install.sh # default: installs to ~/msgflex
-#   bash install.sh --prefix /opt # installs to /opt/msgflex
-#   bash install.sh --help
-# =============================================================================
-
 set -euo pipefail
 
 # ── Colours ───────────────────────────────────────────────────────────────────
@@ -150,6 +138,17 @@ success "All required tools found in $TOOLS_DIR"
 header "Step 2/6  Conda / Mamba"
 
 CONDA_BASE=""
+
+# Desktop launches don't read ~/.bashrc, so look in the usual install locations
+if ! command -v mamba &>/dev/null && ! command -v conda &>/dev/null; then
+    for base in "$HOME/miniforge3" "$HOME/mambaforge" "$HOME/miniconda3" "$HOME/anaconda3"; do
+        if [[ -x "$base/bin/conda" ]]; then
+            export PATH="$base/bin:$PATH"
+            info "Found existing conda install at $base"
+            break
+        fi
+    done
+fi
 
 if command -v mamba &>/dev/null; then
     PKG_MGR="mamba"
