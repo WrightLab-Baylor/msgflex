@@ -17,12 +17,12 @@ set -euo pipefail
 RED='\033[0;31m';  GREEN='\033[0;32m'; YELLOW='\033[1;33m'
 BLUE='\033[0;34m'; BOLD='\033[1m';     RESET='\033[0m'
 
-info()    { echo -e "${BLUE}[INFO]${RESET}  $*"; }
-success() { echo -e "${GREEN}[OK]${RESET}    $*"; }
-warn()    { echo -e "${YELLOW}[WARN]${RESET}  $*"; }
-error()   { echo -e "${RED}[ERROR]${RESET} $*" >&2; }
-die()     { error "$*"; exit 1; }
-header()  { echo -e "\n${BOLD}── $* ──${RESET}"; }
+info()  { echo -e "${BLUE}[INFO]${RESET}  $*"; }
+success()   { echo -e "${GREEN}[OK]${RESET}    $*"; }
+warn()  { echo -e "${YELLOW}[WARN]${RESET}  $*"; }
+error() { echo -e "${RED}[ERROR]${RESET} $*" >&2; }
+die()   { error "$*"; exit 1; }
+header()    { echo -e "\n${BOLD}── $* ──${RESET}"; }
 
 # ── Defaults ──────────────────────────────────────────────────────────────────
 INSTALL_PREFIX="$HOME/msgflex"
@@ -102,11 +102,20 @@ else
 fi
 
 # Tools directory
+TOOLS_URL="https://github.com/thulasis/msgflex/releases/latest/download/tools.tar.gz"
 if [[ ! -d "$TOOLS_DIR" ]]; then
-    die "Tools directory not found at: $TOOLS_DIR
-Expected tools: MSGFPlus.jar, MASIC/, PHRP/, ThermoRawFileParser/,
-MASICParameters.xml
-Please ensure the tools/ directory is present alongside install.sh."
+    info "Tools directory not found — downloading from GitHub release..."
+    TOOLS_ARCHIVE="/tmp/msgflex-tools.tar.gz"
+    if command -v curl &>/dev/null; then
+        curl -fL "$TOOLS_URL" -o "$TOOLS_ARCHIVE"
+    else
+        wget -q "$TOOLS_URL" -O "$TOOLS_ARCHIVE"
+    fi
+    [[ -s "$TOOLS_ARCHIVE" ]] || die "Download failed or returned an empty file. Check $TOOLS_URL"
+    info "Extracting tools to $SCRIPT_DIR..."
+    tar -xzf "$TOOLS_ARCHIVE" -C "$SCRIPT_DIR"
+    rm -f "$TOOLS_ARCHIVE"
+    success "Tools downloaded and extracted to $TOOLS_DIR"
 fi
 
 # Spot-check critical tools (same list as preflight)
