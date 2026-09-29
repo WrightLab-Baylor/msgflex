@@ -374,8 +374,8 @@ environment variable overrides and temporary paths.
 
 If you use MSGFLEX in published work, please cite:
 
-> MSGFLEX Team. *MSGFLEX: A unified proteomics pipeline integrating MS-GF+,
-> MASIC, PHRP, machine-learning rescoring, and label-free quantitation.*
+> MSGFLEX Team. *MSGFLEX: An optimized end-to-end pipeline for metaproteomics,
+> analysis built on MS-GF+ with dedicated rescoring model, XPECTRA.*
 > (manuscript in preparation)
 
 MSGFLEX builds on and should also cite:
