@@ -137,13 +137,13 @@ cd msgflex
 conda env create -f environment.yml
 conda activate msgflex
 pip install -e ".[dev]"
+pip install dearpygui #if GUI is needed
 msgflex check
+msgflex -V #for version
 ```
-
 ---
 
 ## Bundle Layout
-
 After extracting the release archive, the bundle contains:
 
 ```
