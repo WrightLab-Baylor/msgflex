@@ -138,7 +138,7 @@ bash fetch_tools.sh # downloads tools/ from the latest GitHub release
 conda env create -f environment.yml
 conda activate msgflex
 pip install -e ".[dev]"
-pip install dearpygui #if GUI is needed
+pip install "msgflex[gui]"#if GUI is needed
 export MSGFLEX_TOOLS_DIR="$PWD/tools"
 msgflex check
 msgflex -V #for version
