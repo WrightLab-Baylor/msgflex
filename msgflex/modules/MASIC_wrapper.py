@@ -407,7 +407,7 @@ def run_masic_batch(
                 logger.info(f"[SKIPPED] {basename}")
             else:
                 successful.append(basename)
-                logger.info(f"[SUCCESS] {basename}", basename)
+                logger.info(f"[SUCCESS] {basename}")
         else:
             failed.append(basename)
             logger.error(f"[FAILED] {basename} : {message}")
