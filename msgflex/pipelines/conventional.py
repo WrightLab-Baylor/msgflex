@@ -270,7 +270,7 @@ def run(paths, conf_loc, java_mem = "4G",
 
     log.info(f"System Resources -> Total RAM: {total_ram_gb}GB | Java/job: {mem_per_job_gb}GB")
     log.info(f"Concurrency Limits -> By RAM: {max_jobs_by_ram} | By CPU Cap: {max_jobs_by_cpu} | Final Jobs: {num_jobs}")
-    log.info(f"Spectrum files: {len(peak_files)}  |  parallel jobs: {len(num_jobs)}")
+    log.info(f"Spectrum files: {len(peak_files)}  |  parallel jobs: {num_jobs}")
     log.info(f"Thread Allocation -> Total cores: {total_cores} | jobs: {num_jobs} | Threasds/job: {cores_per_node} | Tasks/job: {tasks_per_job}")
     log.info(f"Spectrum files: {len(peak_files)}  |  Parallel jobs: {num_jobs}")
 
