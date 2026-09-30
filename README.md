@@ -150,12 +150,12 @@ After extracting the release archive, the bundle contains:
 
 ```
 msgflex-bundle/
-├── install.sh           # main installer — run this first
-├── setup_desktop.sh     # optional: register double-click desktop icon (Linux)
-├── msgflex.png          # application icon (used by setup_desktop.sh)
-├── environment.yml      # conda environment specification
-├── pyproject.toml       # Python package definition
-└── tools/               # bundled third-party tools (see Tool Setup below)
+├── install.sh # main installer — run this first
+├── setup_desktop.sh # optional: register double-click desktop icon (Linux)
+├── MSGFLEX_Pipeline.png # gives the overall picture of pipeline
+├── environment.yml # conda environment specification
+├── pyproject.toml  # Python package definition
+└── tools/ # bundled third-party tools (see Tool Setup below)
 ```
 
 ---
@@ -178,9 +178,8 @@ tools/
 │   └── MASIC_Console.exe
 ├── PHRP/
 │   ├── PeptideHitResultsProcRunner.exe
-│   └── MSGFPlus_Example/
-│       ├── MSGFDB_Mods.txt
-│       └── Mass_Correction_Tags.txt
+│   ├── MSGFDB_Mods.txt
+│   └── Mass_Correction_Tags.txt
 └── ThermoRawFileParser/
     └── ThermoRawFileParser.exe
 ```
@@ -220,7 +219,7 @@ All paths are derived from `--base` — nothing is hardcoded.
 ### Preflight check
 
 ```bash
-msgflex check                          # verify tools + environment
+msgflex check  # verify tools + environment
 msgflex check -b /path/to/project      # also verify project layout
 ```
 
@@ -230,7 +229,7 @@ msgflex check -b /path/to/project      # also verify project layout
 msgflex run \
     --base /path/to/project \
     --config params.txt \
-    --rescore                          # optional: enable XPECTRA ML rescoring
+    --rescore # optional: enable XPECTRA ML rescoring
 ```
 
 ### Stage-by-stage
@@ -240,7 +239,7 @@ msgflex run \
 msgflex sparx \
     --base /path/to/project \
     --config params.txt \
-    --mode conventional                # or: binning
+    --mode conventional # or: binning
 
 # Stage 2 — ML rescoring (optional)
 msgflex xpectra \
@@ -308,7 +307,7 @@ Full parameter documentation: `msgflex sparx --help`
 ## Development
 
 ```bash
-git clone https://github.com/YOUR_ORG/msgflex.git
+git clone https://github.com/thulasis/msgflex.git
 cd msgflex
 conda env create -n msgflex -f environment.yml
 conda activate msgflex
