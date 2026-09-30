@@ -1,57 +1,43 @@
 name: msgflex
 
-# ──────────────────────────────────────────────────────────────────────
-# NOTE: Creating this environment alone does NOT install the `msgflex`
-# CLI command. After creating the env, you must run:
-#
-#     conda activate msgflex
-#     pip install -e .
-#
-# The `pip install -e .` step reads pyproject.toml and registers the
-# command-line entry points (`msgflex`, `msgflex-check`, etc.) on PATH.
-# The `install.sh` script handles both steps for you.
-# ──────────────────────────────────────────────────────────────────────
-
 channels:
   - conda-forge
   - bioconda
   - nodefaults
 
 dependencies:
-  # ── Core Python ─────────────────────────────────────────
   - python=3.12
+  - pip
 
-  # ── Core scientific stack ───────────────────────────────
+  # Core scientific stack 
   - numpy>=1.24
   - pandas>=2.0
   - scipy>=1.11
   - biopython>=1.85
   - psutil>=5.9
 
-  # ── ML / modeling (XPECTRA) ─────────────────────────────
+  #  ML / modeling (XPECTRA) 
   - scikit-learn>=1.3
   - xgboost>=2.0
   - statsmodels>=0.14
   - joblib>=1.3
 
-  # ── Visualization ───────────────────────────────────────
+  # Visualization 
   - matplotlib>=3.7
   - seaborn>=0.13
 
-  # ── Proteomics parsing ──────────────────────────────────
+  # Proteomics parsing 
   - pyteomics>=4.6
+  - psims
 
-  # ── CLI / utilities ─────────────────────────────────────
+  # utilities 
   - tqdm>=4.66
   - typer>=0.12
 
-  # ── External runtimes (CRITICAL for upstream stage) ─────
+  #  External runtimes 
   - openjdk=11
   - mono
 
-  # ── Testing ─────────────────────────────────────────────
+  # Testing 
   - pytest>=8
-  
-  # ── Packaging / install support ─────────────────────────
-  - pip
 
