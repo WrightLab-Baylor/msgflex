@@ -270,52 +270,7 @@ conda activate msgflex
 pip install "msgflex[gui]"
 ```
 
----
 
-## Architecture
-
-```
-msgflex/
-├── core/
-│   ├── paths.py              # project I/O layout (ProjectPaths dataclass)
-│   ├── tools_resolver.py     # executable tool discovery (MSGFPlus, MASIC, PHRP)
-│   ├── config.py             # parameter parsing
-│   ├── logging.py            # structured logging setup
-│   ├── callbacks.py          # progress/event hooks
-│   └── exceptions.py         # ConfigurationError, ToolNotFoundError, etc.
-├── pipelines/
-│   ├── conventional.py       # standard DDA pipeline
-│   └── binning.py            # binning-mode pipeline
-├── modules/
-│   ├── MASIC_wrapper.py      # MASIC subprocess wrapper
-│   ├── masic_merger.py       # merge MASIC + PHRP outputs → SICdir
-│   ├── inputfile_generator.py
-│   ├── dbcurator.py
-│   └── tic_plot.py           # TIC QC plots via pyopenms
-├── xpectra/                  # ML PSM rescoring subpackage
-│   ├── rxflow.py             # orchestrator
-│   ├── model.py              # XGBoost ensemble
-│   ├── features.py           # spectral feature extraction
-│   ├── metrics.py            # FDR, ROC, precision-recall
-│   ├── utils.py
-│   └── plots.py
-├── quantix/                  # LFQ quantitation subpackage
-│   ├── pipeline.py           # orchestrator
-│   ├── sics.py               # SIC-stats parsing
-│   ├── fdr.py                # FDR estimation
-│   ├── filter.py             # score thresholding
-│   ├── crosstab.py           # peptide crosstab construction
-│   ├── clustering.py
-│   └── rollup.py             # protein rollup
-├── orchestrator/
-│   └── workflow.py           # full pipeline coordinator
-├── cli/
-│   └── main.py               # Typer CLI (sparx, xpectra, quantix, run, check)
-└── gui/
-    └── tabs/                 # DearPyGui tabbed interface
-```
-
----
 
 ## Configuration
 
