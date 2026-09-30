@@ -129,15 +129,17 @@ The conda package bundles MSGFPlus, MASIC, and PHRP automatically. DearPyGui
 (GUI) is installed via a post-link pip step; set `MSGFLEX_SKIP_GUI=1` on
 headless systems to skip it.
 
-### Option D — Manual conda install *(developers)*
+### Option D — Manual installation route with conda *(developers)*
 
 ```bash
 git clone https://github.com/thulasis/msgflex.git
 cd msgflex
+bash fetch_tools.sh # downloads tools/ from the latest GitHub release
 conda env create -f environment.yml
 conda activate msgflex
 pip install -e ".[dev]"
 pip install dearpygui #if GUI is needed
+export MSGFLEX_TOOLS_DIR="$PWD/tools"
 msgflex check
 msgflex -V #for version
 ```
