@@ -73,7 +73,7 @@ External tools bundled in `tools/` (see [Tool Setup](#tool-setup)):
 Download the release archive, unpack it, and run:
 
 ```bash
-bash install.sh                        # installs to ~/msgflex (default)
+bash install.sh  # installs to ~/msgflex (default)
 bash install.sh --prefix /opt/msgflex  # custom prefix
 ```
 
@@ -194,23 +194,23 @@ MSGFLEX expects (and creates) a standard directory layout under a project base d
 
 ```
 /path/to/project/
-├── data/                     # input RAW or mzML files
-├── database/                 # FASTA database files
-├── inputfile.tsv             # auto-generated sample decoder
-├── QCdir/                    # TIC QC plots
-├── SICdir/                   # SPARX final output (merged SIC-stats)
-├── results/
-│   ├── PHRPOut/              # per-sample PHRP results
-│   └── MasicOut/             # per-sample MASIC results
-├── xpectra/                  # XPECTRA output (if --rescore used)
+├── data/  # input .RAW files
+├── database/ # FASTA database files
+├── inputfile.tsv # auto-generated sample decoder
+├── QCdir/ # TIC QC plots
+├── SICdir/ # SPARX final output (merged SIC-stats)
+├── results/ #got MS-GF+ derived .tsv files
+│   ├── PHRPOut/ # per-sample PHRP results
+│   └── MasicOut/ # per-sample MASIC results
+├── xpectra/ # XPECTRA output (if --rescore used)
 │   ├── features/
 │   ├── rescored/
 │   ├── stats/
 │   └── logs/
-└── peptide_crosstab.tsv      # QUANTIX final LFQ table
+└── peptide_crosstab.tsv  # QUANTIX final LFQ table
 ```
 
-All paths are derived from `--base` — nothing is hardcoded.
+All paths are derived from `--base`.
 
 ---
 
@@ -220,7 +220,7 @@ All paths are derived from `--base` — nothing is hardcoded.
 
 ```bash
 msgflex check  # verify tools + environment
-msgflex check -b /path/to/project      # also verify project layout
+msgflex check -b /path/to/project # also verify project layout
 ```
 
 ### Full pipeline (recommended)
@@ -268,8 +268,6 @@ optionally installed by `install.sh` (prompted during install) or added manually
 conda activate msgflex
 pip install "msgflex[gui]"
 ```
-
-
 
 ## Configuration
 
