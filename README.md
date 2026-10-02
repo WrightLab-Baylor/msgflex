@@ -285,7 +285,7 @@ maxPepLength = 50
 numMods = 3
 ```
 
-Full parameter documentation: `msgflex sparx --help`
+Full parameter documentation visit: [MS-GF+ documentation page](https://msgfplus.github.io/msgfplus/) 
 
 ---
 
@@ -335,8 +335,7 @@ If you use MSGFLEX in published work, please cite:
 MSGFLEX builds on and should also cite:
 
 - Kim et al. (2014) MS-GF+ — *Nature Communications*
-- Monroe et al. MASIC — *PNNL Comp Mass Spec*
-- Payne et al. PHRP — *PNNL Comp Mass Spec*
+- Monroe et al. (2008) MASIC — *Computational Biology and Chemistry*
 
 ---
 
