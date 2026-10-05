@@ -4,12 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "msgflex"
-# ── VERSION NOTE ─────────────────────────────────────────────────────────────
-# Keep dynamic version.  Bioconda meta.yaml will pin via {% set version %} and
-# the source tarball tag.  The installed package version comes from
-# msgflex/__init__.py::__version__, which setuptools reads at build time.
-# Ensure git tag vX.Y.Z matches __version__ before every release.
-# ─────────────────────────────────────────────────────────────────────────────
+
 dynamic = ["version"]
 description = "Unified MSGFLEX proteomics pipeline (SPARX + XPECTRA + QUANTIX)"
 readme = "README.md"
@@ -27,7 +22,6 @@ classifiers = [
     "Operating System :: POSIX :: Linux",
 ]
 
-# ── Runtime dependencies ──────────────────────────────────────────────────────
 # All packages here MUST be available on bioconda or conda-forge.
 # dearpygui is intentionally excluded (pip-only; see [gui] extra below).
 dependencies = [
@@ -47,7 +41,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# ── GUI (pip-only) ────────────────────────────────────────────────────────────
+# GUI (pip-only) 
 gui = [
     "dearpygui>=2.0",
 ]
@@ -58,19 +52,16 @@ dev = [
     "mypy>=1.10",
 ]
 
-# ── Entry points ──────────────────────────────────────────────────────────────
 [project.scripts]
 msgflex = "msgflex.cli.main:main"
 msgflex-gui = "msgflex.gui.app:launch"
 
-# ── URLs (required by Bioconda linter) ───────────────────────────────────────
 [project.urls]
-Homepage = "https://github.com/thulasis/msgflex"
-Repository = "https://github.com/thulasis/msgflex"
-Documentation = "https://github.com/thulasis/msgflex#readme"
-"Bug Tracker" = "https://github.com/thulasis/msgflex/issues"
+Homepage = "https://github.com/WrightLab-Baylor/msgflex"
+Repository = "https://github.com/WrightLab-Baylor/msgflex"
+Documentation = "https://github.com/WrightLab-Baylor/msgflex#readme"
+"Bug Tracker" = "https://github.com/WrightLab-Baylor/msgflex/issues"
 
-# ── Package discovery ─────────────────────────────────────────────────────────
 [tool.setuptools]
 include-package-data = true
 
@@ -78,15 +69,14 @@ include-package-data = true
 version = { attr = "msgflex.__version__" }
 
 [tool.setuptools.packages.find]
-where   = ["."]
+where = ["."]
 include = ["msgflex*"]
 
 [tool.setuptools.package-data]
 msgflex = ["py.typed"]
 
-# ── Dev tool configs ──────────────────────────────────────────────────────────
 [tool.ruff]
-line-length    = 100
+line-length  = 100
 target-version = "py310"
 
 [tool.ruff.lint]
@@ -94,11 +84,11 @@ select = ["E", "F", "W", "I", "UP", "B", "SIM"]
 ignore = ["E501"]
 
 [tool.mypy]
-python_version      = "3.10"
+python_version = "3.10"
 warn_unused_ignores = true
 no_implicit_optional = true
 ignore_missing_imports = true 
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts   = "-v --strict-markers"
+addopts = "-v --strict-markers"
