@@ -6,7 +6,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TOOLS_URL="https://github.com/thulasis/msgflex/releases/latest/download/tools.tar.gz"
+TOOLS_URL="https://github.com/WrightLab-Baylor/msgflex/releases/latest/download/tools.tar.gz"
 TOOLS_ARCHIVE="/tmp/msgflex-tools.tar.gz"
 
 if [[ -d "$SCRIPT_DIR/tools" ]]; then
