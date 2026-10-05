@@ -1,20 +1,5 @@
 #!/usr/bin/env bash
-# =============================================================================
-# MSGFLEX Pipeline v0.5.0 — Desktop Entry Setup
-# =============================================================================
-# Run this once after extracting the MSGFLEX bundle to register the
-# double-click installer icon on your Linux desktop (GNOME / KDE / XFCE).
-#
-# Usage:
-#   bash setup_desktop.sh
-#
-# What this script does:
-#   1. Detects the bundle directory (wherever this script lives)
-#   2. Copies the icon to ~/.local/share/icons/
-#   3. Writes a valid .desktop file to ~/.local/share/applications/
-#   4. Refreshes the desktop database so the icon appears immediately
-#   5. Optionally places a shortcut on ~/Desktop
-# =============================================================================
+
 
 set -euo pipefail
 
@@ -52,9 +37,7 @@ echo "  Bundle directory : $BUNDLE_DIR"
 echo "  install.sh       : $INSTALL_SCRIPT"
 echo ""
 
-# =============================================================================
 # Preflight
-# =============================================================================
 header "Checking requirements"
 
 if [[ "$(uname -s)" != "Linux" ]]; then
