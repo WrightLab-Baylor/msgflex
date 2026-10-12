@@ -18,7 +18,7 @@ BUNDLE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 INSTALL_SCRIPT="$BUNDLE_DIR/install.sh"
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-ICON_SRC="$BUNDLE_DIR/msgflex.png"           # optional — falls back gracefully
+ICON_SRC="$BUNDLE_DIR/msgflex/gui/assets/msgflex.png"
 ICON_DIR="$HOME/.local/share/icons/hicolor/256x256/apps"
 ICON_DEST="$ICON_DIR/MSGFLEX.png"
 APP_DIR="$HOME/.local/share/applications"
@@ -33,7 +33,7 @@ echo "  ║   MSGFLEX Pipeline v1.1.0 Desktop Setup  ║"
 echo "  ╚══════════════════════════════════════════╝"
 echo -e "${RESET}"
 echo "  Bundle directory : $BUNDLE_DIR"
-echo "  install.sh       : $INSTALL_SCRIPT"
+echo "  install.sh : $INSTALL_SCRIPT"
 echo ""
 
 # Preflight
